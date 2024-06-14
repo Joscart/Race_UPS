@@ -7,6 +7,7 @@ public class Juego extends Thread {
 	public Juego(Juego lb) {
 		// TODO Auto-generated constructor stub
 		this.lb = lb;
+		
 	}
 
 }
