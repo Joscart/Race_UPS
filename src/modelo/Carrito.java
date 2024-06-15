@@ -28,7 +28,7 @@ public class Carrito extends Thread implements Dimensionable{
 	public Carrito() {
 		// TODO Auto-generated constructor stub
 		try {
-			this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_naranja.png")), new Dimension(70, 100), new Point(200, 200));
+			this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_celeste.png")), new Dimension(70, 100), new Point(200, 200));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
