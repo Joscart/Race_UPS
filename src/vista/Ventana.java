@@ -1,12 +1,14 @@
 package vista;
 
 import java.awt.EventQueue;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class Ventana extends JFrame {
+public class Ventana extends JFrame implements Dimensionable, KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -32,11 +34,31 @@ public class Ventana extends JFrame {
 	 */
 	public Ventana() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
+		setBounds(POS_X, POS_Y, ANCHO_VENTANA, ALTO_VENTANA);
+		setFocusable(true);
+		addKeyListener(this);
+		contentPane = new Juego();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		contentPane.dispatchEvent(e);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		contentPane.dispatchEvent(e);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		contentPane.dispatchEvent(e);
 	}
 
 }
