@@ -69,6 +69,12 @@ public class logic_Juego extends Thread implements KeyListener{
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			lb.jugador2.setGirandoDer(true);
 		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			lb.jugador1.suspend();
+			lb.jugador2.suspend();
+			this.suspend();
+		}
 	}
 
 	@Override
@@ -96,6 +102,12 @@ public class logic_Juego extends Thread implements KeyListener{
 			lb.jugador2.setGirandoIzq(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			lb.jugador2.setGirandoDer(false);
+		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			lb.jugador1.resume();
+			lb.jugador2.resume();
+			this.resume();
 		}
 	}
 }
