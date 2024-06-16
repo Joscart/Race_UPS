@@ -74,5 +74,6 @@ public class Ventana extends JFrame implements Dimensionable, KeyListener{
 		// TODO Auto-generated method stub
 		pn_juego.dispatchEvent(e);
 	}
+	
 
 }
