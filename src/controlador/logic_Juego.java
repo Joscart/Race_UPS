@@ -7,12 +7,16 @@ import vista.Juego;
 
 public class logic_Juego extends Thread implements KeyListener{
 	
-	Juego lb;
+	private Juego lb;
+	boolean pause = false;
 
 	public logic_Juego(Juego lb) {
 		// TODO Auto-generated constructor stub
 		this.lb = lb;
 		listener();
+		
+		lb.jugador1.setVelocidad(lb.jugador1.getVelocidadMax());
+		lb.jugador2.setVelocidad(lb.jugador2.getVelocidadMax());
 		
 		lb.jugador1.start();
 		lb.jugador2.start();
@@ -24,6 +28,24 @@ public class logic_Juego extends Thread implements KeyListener{
 		lb.addKeyListener(this);
 	}
 
+	public void pause() {
+		if (!pause) {
+			this.suspend();
+			lb.jugador1.suspend();
+			lb.jugador2.suspend();
+			pause = true;
+			return;
+		}
+		
+		if (pause) {
+			this.resume();
+			lb.jugador1.resume();
+			lb.jugador2.resume();
+			pause = false;
+			return;
+		}
+	}
+	
 	@Override
 	public void run() {
         // TODO Auto-generated method stub
@@ -71,9 +93,7 @@ public class logic_Juego extends Thread implements KeyListener{
 		}
 		
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			lb.jugador1.suspend();
-			lb.jugador2.suspend();
-			this.suspend();
+			pause();
 		}
 	}
 
@@ -102,12 +122,6 @@ public class logic_Juego extends Thread implements KeyListener{
 			lb.jugador2.setGirandoIzq(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_D) {
 			lb.jugador2.setGirandoDer(false);
-		}
-		
-		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			lb.jugador1.resume();
-			lb.jugador2.resume();
-			this.resume();
 		}
 	}
 }

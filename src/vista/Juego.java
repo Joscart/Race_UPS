@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -13,19 +14,21 @@ public class Juego extends JPanel implements Dimensionable{
 	private static final long serialVersionUID = 1L;
 	public Carrito jugador1;
 	public Carrito jugador2;
+	public logic_Juego logic;
 
 	/**
 	 * Create the panel.
 	 */
 	public Juego() {
 		this.setSize(ANCHO, ALTO);
+		this.setBackground(Color.GRAY);
 		this.setFocusable(true);
 		
 		jugador1 = new Carrito();
 		jugador2 = new Carrito();
 		jugador2.setPosicion(new Point(jugador2.getPosicion().x + 100, jugador2.getPosicion().y));
 		
-		logic_Juego logic = new logic_Juego(this);
+		logic = new logic_Juego(this);
 	}
 
 	@Override
