@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import controlador.logic_Juego;
 import modelo.Carrito;
+import modelo.ImagenCalle;
 
 public class Juego extends JPanel implements Dimensionable{
 
