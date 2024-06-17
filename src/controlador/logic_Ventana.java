@@ -1,6 +1,7 @@
 package controlador;
 
 import java.awt.CardLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -21,23 +22,19 @@ public class logic_Ventana implements ActionListener, KeyListener{
 	
 	private void listener() {
 		lb.addKeyListener(this);
+		lb.pn_seleccion.btn_Empezar.addActionListener(this);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-		//System.out.println("Key typed");
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		//System.out.println("Key pressed");
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			CardLayout cl = (CardLayout) lb.getContentPane().getLayout();
-			cl.next(lb.getContentPane());
-		}
+
 	}
 
 	@Override
@@ -48,7 +45,15 @@ public class logic_Ventana implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (e.getSource() == lb.pn_seleccion.btn_Empezar) {
+			CardLayout cl = (CardLayout) lb.getContentPane().getLayout();
+			cl.next(lb.getContentPane());
+			lb.pn_juego.jugador1.setJugador(lb.pn_seleccion.seleccionado);
+			lb.pn_juego.jugador2.setJugador(lb.pn_seleccion.seleccionado2);
+			lb.pn_juego.jugador1.setPosicion(new Point(600,600));
+			lb.pn_juego.jugador2.setPosicion(new Point(300,600));
+			lb.pn_juego.logic.pause();
+		}
 	}
 
 }

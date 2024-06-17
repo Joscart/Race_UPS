@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 
 import javax.imageio.ImageIO;
 
@@ -14,16 +16,20 @@ import vista.Dimensionable;
 public class Carrito extends Thread implements Dimensionable{
 
 	private Sprite carro;
+	private Jugador jugador;
+	private Point posicionAnterior;
 	private double velocidad = 0.0;
 	private double aceleracion = 0.3;
-	private double desaceleracion = 0.1;
-	private double velocidadMax = 15;
+	private double desaceleracion = 0.2;
+	private double velocidadMax = 30;
 	private int anguloGiroMax = 30;
 	private boolean acelerando = false;
 	private boolean girandoIzq = false;
 	private boolean girandoDer = false;
 	private boolean colisionando = false;
 	private boolean activo = true;
+	private Instant tiempoInicio;
+	private Instant tiempoFinal;
 
 	public Carrito() {
 		// TODO Auto-generated constructor stub
@@ -33,7 +39,46 @@ public class Carrito extends Thread implements Dimensionable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.carro.setTest(true);
+		//this.carro.setTest(true);
+	}
+	
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+		
+		switch(jugador.getPersonaje()) {
+		case Andre:
+			try {
+				this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_naranja.png")), new Dimension(70, 100), new Point(200, 200));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case Dylan:
+			try {
+				this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_celeste.png")), new Dimension(70, 100), new Point(200, 200));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case Jose:
+			try {
+				this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_negro.png")), new Dimension(70, 100), new Point(200, 200));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		default:
+			try {
+				this.carro = new Sprite(ImageIO.read(new File("src/multimedia/auto_negro.png")), new Dimension(70, 100), new Point(200, 200));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
 	}
 
 	public BufferedImage getImagen() {
@@ -169,12 +214,19 @@ public class Carrito extends Thread implements Dimensionable{
 		return new Rectangle(carro.getPosition().x + 10, carro.getPosition().y + 10, carro.getDimension().width - 20,
 				carro.getDimension().height - 20);
 	}
+	
+	public Duration getDuracion() {
+		if (this.isAlive())
+			return Duration.between(tiempoInicio, tiempoFinal);
+		else
+			return Duration.ZERO;
+	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		tiempoInicio = Instant.now();
 		while (activo) {
-
 			if (acelerando) {
 				if ((girandoIzq && girandoDer) || (!girandoIzq && !girandoDer)) {
 					if (velocidad < velocidadMax) {
@@ -210,7 +262,7 @@ public class Carrito extends Thread implements Dimensionable{
 
 			double rads = Math.toRadians(getRotacion());
 			double sin = Math.sin(rads), cos = Math.cos(rads);
-			int x = (int) Math.round(sin * velocidad + getPosicion().x);
+			int x = (int) Math.round(sin * (velocidad < 0? -velocidad:velocidad) + getPosicion().x);
 			int y = (int) Math.round(cos * -velocidad + getPosicion().y);
 			
 			if (velocidad > 0) {
@@ -232,12 +284,26 @@ public class Carrito extends Thread implements Dimensionable{
 			} else if (y > ALTO + 100) {
 				activo = false;
 			}
+			
+			if (posicionAnterior == null) {
+				posicionAnterior = new Point(x, y);
+			}
+			
+			if (colisionando) {
+				setPosicion(posicionAnterior);
+			}
 
 			if (!colisionando) {
 				setPosicion(new Point(x, y));
 			}
+			
+			if (posicionAnterior.x != x && posicionAnterior.y != y) {
+				posicionAnterior.x = x;
+				posicionAnterior.y = y;
+			}
 
-			carro.setTestString(velocidad + "");
+			tiempoFinal = Instant.now();
+			//carro.setTestString(velocidad + "");
 			
 			try {
 				Thread.sleep(10);
