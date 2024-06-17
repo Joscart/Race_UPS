@@ -21,8 +21,8 @@ import javax.swing.JComboBox;
 public class SeleccionPersonaje extends JPanel implements Dimensionable{
 
 	private static final long serialVersionUID = 1L;
-	public JComboBox txt_apuesta1;
-	public JComboBox txt_apuesta2;
+	public JComboBox<Integer> txt_apuesta1;
+	public JComboBox<Integer> txt_apuesta2;
 	public JLabel lbl_imagen1;
 	public JButton btn_jugador1;
 	public JButton btn_jugador2;
@@ -120,30 +120,30 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 		add(btn_jugador6);
 		
 		lbl_imagen1 = new JLabel(new ImageIcon(seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-		lbl_imagen1.setBounds(50, 120, 300, 300);
+		lbl_imagen1.setBounds(745, 120, 300, 300);
 		add(lbl_imagen1);
 		
 		lbl_imagen2 = new JLabel(new ImageIcon(seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-		lbl_imagen2.setBounds(745, 120, 300, 300);
+		lbl_imagen2.setBounds(50, 120, 300, 300);
 		add(lbl_imagen2);
 		
 		txt_apuesta1 = new JComboBox<Integer>();
-		txt_apuesta1.addItem("0");
-		txt_apuesta1.addItem("100");
-		txt_apuesta1.addItem("200");
-		txt_apuesta1.addItem("300");
-		txt_apuesta1.addItem("400");
-		txt_apuesta1.addItem("500");
+		txt_apuesta1.addItem(0);
+		txt_apuesta1.addItem(100);
+		txt_apuesta1.addItem(200);
+		txt_apuesta1.addItem(300);
+		txt_apuesta1.addItem(400);
+		txt_apuesta1.addItem(500);
 		txt_apuesta1.setBounds(402, 240, 96, 20);
 		add(txt_apuesta1);
 		
 		txt_apuesta2 = new JComboBox<Integer>();
-		txt_apuesta2.addItem("0");
-		txt_apuesta2.addItem("100");
-		txt_apuesta2.addItem("200");
-		txt_apuesta2.addItem("300");
-		txt_apuesta2.addItem("400");
-		txt_apuesta2.addItem("500");
+		txt_apuesta2.addItem(0);
+		txt_apuesta2.addItem(100);
+		txt_apuesta2.addItem(200);
+		txt_apuesta2.addItem(300);
+		txt_apuesta2.addItem(400);
+		txt_apuesta2.addItem(500);
 		txt_apuesta2.setBounds(602, 240, 96, 20);
 		add(txt_apuesta2);
 		
@@ -154,7 +154,7 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 		lbl_Resultado.setBounds(448, 367, 184, 30);
 		add(lbl_Resultado);
 		
-		btn_Empezar = new JButton("Emperzar");
+		btn_Empezar = new JButton("Empezar");
 		btn_Empezar.setFont(new Font("Tahoma", Font.BOLD, 25));
 		btn_Empezar.setBounds(448, 555, 183, 51);
 		add(btn_Empezar);

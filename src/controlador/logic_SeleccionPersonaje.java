@@ -9,8 +9,9 @@ import modelo.Jugador;
 import vista.SeleccionPersonaje;
 
 public class logic_SeleccionPersonaje implements ActionListener{
-	
-	SeleccionPersonaje lb;
+
+	private SeleccionPersonaje lb;
+	private boolean seleccionado = false;
 
 	public logic_SeleccionPersonaje(SeleccionPersonaje lb) {
 		// TODO Auto-generated constructor stub
@@ -18,7 +19,7 @@ public class logic_SeleccionPersonaje implements ActionListener{
 		listener();
 		lb.btn_Empezar.setEnabled(false);
 	}
-	
+
 	private void listener() {
 		lb.btn_Empezar.addActionListener(this);
 		lb.btn_jugador1.addActionListener(this);
@@ -29,70 +30,56 @@ public class logic_SeleccionPersonaje implements ActionListener{
 		lb.btn_jugador6.addActionListener(this);
 		lb.btn_apostar.addActionListener(this);	
 	}
+	
+	public boolean isSeleccionado() {
+		return seleccionado;
+	}
+	
+	public void reset() {
+		seleccionado = false;
+		lb.seleccionado.setPersonaje(Jugador.Personajes.Default);
+		lb.seleccionado2.setPersonaje(Jugador.Personajes.Default);
+		lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+		lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+		lb.btn_Empezar.setEnabled(false);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("Boton presionado");
+		//System.out.println("Boton presionado");
 		if (e.getSource() == lb.btn_Empezar) {
-			System.out.println("Empiece el juego");
+			seleccionado = true;
 		}else if (e.getSource() == lb.btn_jugador1) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Jose);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
-		}else if (e.getSource()== lb.btn_jugador2) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Andre);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
-		}else if (e.getSource()== lb.btn_jugador3) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Dylan);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
-		}else if (e.getSource() == lb.btn_jugador4) {
 			lb.seleccionado2.setPersonaje(Jugador.Personajes.Jose);
 			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
+		}else if (e.getSource()== lb.btn_jugador2) {
+			lb.seleccionado2.setPersonaje(Jugador.Personajes.Andre);
+			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+		}else if (e.getSource()== lb.btn_jugador3) {
+			lb.seleccionado2.setPersonaje(Jugador.Personajes.Dylan);
+			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+		}else if (e.getSource() == lb.btn_jugador4) {
+			lb.seleccionado.setPersonaje(Jugador.Personajes.Jose);
+			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 		}else if (e.getSource() == lb.btn_jugador5) {
-			lb.seleccionado2.setPersonaje(Jugador.Personajes.Andre);
-			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
+			lb.seleccionado.setPersonaje(Jugador.Personajes.Andre);
+			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 		}else if (e.getSource() == lb.btn_jugador6) {
-			lb.seleccionado2.setPersonaje(Jugador.Personajes.Andre);
-			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
-			lb.btn_Empezar.setEnabled(true);
+			lb.seleccionado.setPersonaje(Jugador.Personajes.Dylan);
+			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 		}else if (e.getSource()==lb.btn_apostar) {
 			calcularApuesta();
 		}
 		
+		if (lb.seleccionado.getPersonaje() != Jugador.Personajes.Default && lb.seleccionado2.getPersonaje() != Jugador.Personajes.Default) {
+			lb.btn_Empezar.setEnabled(true);
+		}
+
 	}
 	private void calcularApuesta() {
-	    try {
-	        // Obtener valores seleccionados
-	        String apuesta1 = lb.txt_apuesta1.getSelectedItem().toString();
-	        String apuesta2 = lb.txt_apuesta2.getSelectedItem().toString();
-	        
-	        // Validar que los valores no sean nulos ni vacíos
-	        if (apuesta1 != null && !apuesta1.isEmpty() && apuesta2 != null && !apuesta2.isEmpty()) {
-	            try {
-	                // Intentar convertir los valores a double
-	                double monto1 = Double.parseDouble(apuesta1);
-	                double monto2 = Double.parseDouble(apuesta2);
-	                double resultado = monto1 + monto2;
-	                
-	                // Mostrar el resultado
-	                lb.lbl_Resultado.setText("Apuesta de: " + resultado);
-	            } catch (NumberFormatException e) {
-	                // Capturar excepciones si los valores no son numéricos
-	                lb.lbl_Resultado.setText("Los valores deben ser numéricos");
-	            }
-	        } else {
-	            // Mensaje de error si los valores son nulos o vacíos
-	            lb.lbl_Resultado.setText("Seleccione valores válidos en ambos comboboxes");
-	        }
-	    } catch (Exception e) {
-	        // Captura cualquier otra excepción inesperada
-	        lb.lbl_Resultado.setText("Ocurrió un error: " + e.getMessage());
-	    }
+		int resultado = (Integer) (lb.txt_apuesta1.getSelectedItem()) + (Integer) (lb.txt_apuesta2.getSelectedItem());
+		lb.lbl_Resultado.setText("Apuesta de: " + resultado);
 	}
 
 
