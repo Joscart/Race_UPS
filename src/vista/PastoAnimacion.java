@@ -56,13 +56,26 @@ public class PastoAnimacion extends JPanel implements Dimensionable, Runnable {
         int y = 0;
         while (y <= ALTO) {
             int x = 0;
-            while (x <= 300) { // Dibuja solo hasta x = 500
+            while (x <= 300) { // Dibuja solo hasta x = 300
+                g.drawImage(currentImage, x, y, pastoImage.getWidth(), pastoImage.getHeight(), null);
+                x += pastoImage.getWidth();
+            }
+            y += pastoImage.getHeight();
+        }
+
+        // Dibujar pasto nuevamente desde x = 700 hasta x = 1100
+        y = 0;
+        while (y <= ALTO) {
+            int x = 800;
+            while (x <= 1100) { // Dibuja desde x = 700 hasta x = 1100
                 g.drawImage(currentImage, x, y, pastoImage.getWidth(), pastoImage.getHeight(), null);
                 x += pastoImage.getWidth();
             }
             y += pastoImage.getHeight();
         }
     }
+    
+    
 
     @Override
     public void run() {
