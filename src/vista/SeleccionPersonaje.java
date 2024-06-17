@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import controlador.logic_SeleccionPersonaje;
 import modelo.Jugador;
 
 import java.awt.Font;
@@ -15,12 +16,13 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class SeleccionPersonaje extends JPanel implements Dimensionable{
 
 	private static final long serialVersionUID = 1L;
-	public JTextField txt_apuesta1;
-	public JTextField txt_apuesta2;
+	public JComboBox txt_apuesta1;
+	public JComboBox txt_apuesta2;
 	public JLabel lbl_imagen1;
 	public JButton btn_jugador1;
 	public JButton btn_jugador2;
@@ -35,7 +37,7 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 	public JLabel lbl_Seleccione;
 	public Jugador seleccionado = new Jugador();
 	public JButton btn_apostar;
-	public JLabel lbl_resultado;
+	public logic_SeleccionPersonaje logic;
 
 	/**
 	 * Create the panel.
@@ -45,7 +47,7 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 		setSize(ANCHO, ALTO);
 		setLayout(null);
 		
-		Jugador jugador = new Jugador ();
+		Jugador jugador = new Jugador();
 		
 		jugador.setPersonaje(Jugador.Personajes.Jose);
 		btn_jugador1 = new JButton("JOSE");
@@ -103,21 +105,31 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 		lbl_imagen2.setBounds(745, 120, 300, 300);
 		add(lbl_imagen2);
 		
-		txt_apuesta1 = new JTextField();
+		txt_apuesta1 = new JComboBox();
+		txt_apuesta1.addItem("0");
+		txt_apuesta1.addItem("100");
+		txt_apuesta1.addItem("200");
+		txt_apuesta1.addItem("300");
+		txt_apuesta1.addItem("400");
+		txt_apuesta1.addItem("500");
 		txt_apuesta1.setBounds(378, 240, 96, 20);
 		add(txt_apuesta1);
-		txt_apuesta1.setColumns(10);
 		
-		txt_apuesta2 = new JTextField();
+		txt_apuesta2 = new JComboBox();
+		txt_apuesta2.addItem("0");
+		txt_apuesta2.addItem("100");
+		txt_apuesta2.addItem("200");
+		txt_apuesta2.addItem("300");
+		txt_apuesta2.addItem("400");
+		txt_apuesta2.addItem("500");
 		txt_apuesta2.setBounds(578, 240, 96, 20);
 		add(txt_apuesta2);
-		txt_apuesta2.setColumns(10);
 		
 		lbl_Resultado = new JLabel("Apuesta de:");
 		lbl_Resultado.setForeground(Color.WHITE);
 		lbl_Resultado.setBackground(Color.BLACK);
 		lbl_Resultado.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lbl_Resultado.setBounds(448, 367, 109, 30);
+		lbl_Resultado.setBounds(448, 367, 184, 30);
 		add(lbl_Resultado);
 		
 		btn_Empezar = new JButton("Emperzar");
@@ -139,12 +151,7 @@ public class SeleccionPersonaje extends JPanel implements Dimensionable{
 		btn_apostar.setBounds(483, 297, 89, 23);
 		add(btn_apostar);
 		
-		lbl_resultado = new JLabel("");
-		lbl_resultado.setForeground(Color.WHITE);
-		lbl_resultado.setBackground(Color.BLACK);
-		lbl_resultado.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		lbl_resultado.setBounds(554, 368, 120, 29);
-		add(lbl_resultado);
+		logic = new logic_SeleccionPersonaje(this);
 	}
 	
 	@Override

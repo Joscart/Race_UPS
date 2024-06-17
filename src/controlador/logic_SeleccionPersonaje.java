@@ -33,6 +33,7 @@ public class logic_SeleccionPersonaje implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("Boton presionado");
 		if (e.getSource() == lb.btn_Empezar) {
 			System.out.println("Empiece el juego");
 		}else if (e.getSource() == lb.btn_jugador1) {
@@ -65,14 +66,12 @@ public class logic_SeleccionPersonaje implements ActionListener{
 		
 	}
 	private void calcularApuesta() {
-		try {
-			double monto1 = Double.parseDouble(lb.txt_apuesta1.getText());
-            double monto2 = Double.parseDouble(lb.txt_apuesta2.getText());
+
+			double monto1 = Double.valueOf(lb.txt_apuesta1.getSelectedItem().toString());
+            double monto2 = Double.valueOf(lb.txt_apuesta2.getSelectedItem().toString());
             double resultado = monto1 + monto2;
-            lb.lbl_resultado.setText("Apuesta de:" + resultado);
-		}catch (NumberFormatException e) {
-			lb.lbl_resultado.setText("Por favor, ingresa números válidos.");
-		}
+            lb.lbl_Resultado.setText("Apuesta de: " + resultado);
+
 	}
 
 }
