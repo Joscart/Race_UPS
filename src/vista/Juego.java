@@ -6,15 +6,17 @@ import java.awt.Point;
 import javax.swing.JPanel;
 import controlador.logic_Juego;
 import modelo.Carrito;
+import modelo.ImagenCalle;
 
 public class Juego extends JPanel implements Dimensionable {
-
+	
     private static final long serialVersionUID = 1L;
     public Carrito jugador1;
     public Carrito jugador2;
     private ImagenCalle imagenCalle1;
     private ImagenCalle imagenCalle3;
     private PastoAnimacion pastoAnimacion;
+    public logic_Juego logic; 
 
     /**
      * Create the panel.
@@ -34,9 +36,10 @@ public class Juego extends JPanel implements Dimensionable {
         // Iniciar la animación de pasto
         pastoAnimacion = new PastoAnimacion();
 
-        logic_Juego logic = new logic_Juego(this);
+        // Initialize logic
+        logic = new logic_Juego(this);
     }
-
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
