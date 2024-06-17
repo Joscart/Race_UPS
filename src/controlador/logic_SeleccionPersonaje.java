@@ -49,16 +49,16 @@ public class logic_SeleccionPersonaje implements ActionListener{
 			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 			lb.btn_Empezar.setEnabled(true);
 		}else if (e.getSource() == lb.btn_jugador4) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Jose);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+			lb.seleccionado2.setPersonaje(Jugador.Personajes.Jose);
+			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 			lb.btn_Empezar.setEnabled(true);
 		}else if (e.getSource() == lb.btn_jugador5) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Andre);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+			lb.seleccionado2.setPersonaje(Jugador.Personajes.Andre);
+			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 			lb.btn_Empezar.setEnabled(true);
 		}else if (e.getSource() == lb.btn_jugador6) {
-			lb.seleccionado.setPersonaje(Jugador.Personajes.Andre);
-			lb.lbl_imagen1.setIcon(new ImageIcon(lb.seleccionado.getImagenPersonaje().getScaledInstance(300, 300, 0)));
+			lb.seleccionado2.setPersonaje(Jugador.Personajes.Andre);
+			lb.lbl_imagen2.setIcon(new ImageIcon(lb.seleccionado2.getImagenPersonaje().getScaledInstance(300, 300, 0)));
 			lb.btn_Empezar.setEnabled(true);
 		}else if (e.getSource()==lb.btn_apostar) {
 			calcularApuesta();
@@ -66,12 +66,34 @@ public class logic_SeleccionPersonaje implements ActionListener{
 		
 	}
 	private void calcularApuesta() {
-
-			double monto1 = Double.valueOf(lb.txt_apuesta1.getSelectedItem().toString());
-            double monto2 = Double.valueOf(lb.txt_apuesta2.getSelectedItem().toString());
-            double resultado = monto1 + monto2;
-            lb.lbl_Resultado.setText("Apuesta de: " + resultado);
-
+	    try {
+	        // Obtener valores seleccionados
+	        String apuesta1 = lb.txt_apuesta1.getSelectedItem().toString();
+	        String apuesta2 = lb.txt_apuesta2.getSelectedItem().toString();
+	        
+	        // Validar que los valores no sean nulos ni vacíos
+	        if (apuesta1 != null && !apuesta1.isEmpty() && apuesta2 != null && !apuesta2.isEmpty()) {
+	            try {
+	                // Intentar convertir los valores a double
+	                double monto1 = Double.parseDouble(apuesta1);
+	                double monto2 = Double.parseDouble(apuesta2);
+	                double resultado = monto1 + monto2;
+	                
+	                // Mostrar el resultado
+	                lb.lbl_Resultado.setText("Apuesta de: " + resultado);
+	            } catch (NumberFormatException e) {
+	                // Capturar excepciones si los valores no son numéricos
+	                lb.lbl_Resultado.setText("Los valores deben ser numéricos");
+	            }
+	        } else {
+	            // Mensaje de error si los valores son nulos o vacíos
+	            lb.lbl_Resultado.setText("Seleccione valores válidos en ambos comboboxes");
+	        }
+	    } catch (Exception e) {
+	        // Captura cualquier otra excepción inesperada
+	        lb.lbl_Resultado.setText("Ocurrió un error: " + e.getMessage());
+	    }
 	}
+
 
 }
