@@ -6,6 +6,7 @@ import java.awt.Point;
 import javax.swing.JPanel;
 import controlador.logic_Juego;
 import modelo.Carrito;
+import modelo.Fondo;
 import modelo.ImagenCalle;
 
 public class Juego extends JPanel implements Dimensionable {
@@ -16,6 +17,7 @@ public class Juego extends JPanel implements Dimensionable {
     private ImagenCalle imagenCalle1;
     private ImagenCalle imagenCalle3;
     private PastoAnimacion pastoAnimacion;
+    public Fondo fondo;
     public logic_Juego logic; 
 
     /**
@@ -24,6 +26,8 @@ public class Juego extends JPanel implements Dimensionable {
     public Juego() {
         this.setSize(ANCHO, ALTO); // Tamaño original de la ventana
         this.setFocusable(true);
+        
+        fondo = new Fondo();
 
         jugador1 = new Carrito();
         jugador2 = new Carrito();
@@ -53,6 +57,9 @@ public class Juego extends JPanel implements Dimensionable {
 
         // Dibujar animación de pasto
         pastoAnimacion.paintComponent(g);
+        
+        // Dibujar el fondo
+        g.drawImage(fondo.getImagen(), fondo.getPosicion().x, fondo.getPosicion().y, fondo.getDimension().width, fondo.getDimension().height, null);
 
         // Dibujar a los jugadores
         g.drawImage(jugador1.getImagen(), jugador1.getPosicion().x, jugador1.getPosicion().y, jugador1.getDimension().width, jugador1.getDimension().height, null);

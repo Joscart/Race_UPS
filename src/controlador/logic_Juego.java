@@ -18,6 +18,9 @@ public class logic_Juego extends Thread implements KeyListener{
 		lb.jugador1.setVelocidad(lb.jugador1.getVelocidadMax());
 		lb.jugador2.setVelocidad(lb.jugador2.getVelocidadMax());
 		
+		lb.fondo.start();
+		lb.fondo.setVelocidad(15);
+		
 		lb.jugador1.start();
 		lb.jugador2.start();
 		
