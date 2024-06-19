@@ -1,8 +1,11 @@
 package modelo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +23,11 @@ public class Fondo extends Thread implements Dimensionable{
 	private Dimension spriteDimension = new Dimension(100,100);
 	private int velocidad = 0;
 	private Sprite sprites[];
+	private List<Rectangle> colisiones = new ArrayList<Rectangle>();
+	private int contador = 0;
 	
 	private enum Sprite_tipo {
-		GRAVA, PASTO, AGUA, ARENA, CALLE1, CALLE2, CALLE3
+		GRAVA, PASTO, AGUA, ARENA, CALLE1, CALLE2, CALLE3, CARRO1, CARRO2, CARRO3
 	}
 	
 	private void loadSprites() throws IOException {
@@ -34,6 +39,9 @@ public class Fondo extends Thread implements Dimensionable{
         this.sprites[Sprite_tipo.CALLE1.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/calle1.png")), spriteDimension);
         this.sprites[Sprite_tipo.CALLE2.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/calle2.png")), spriteDimension);
         this.sprites[Sprite_tipo.CALLE3.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/calle3.png")), spriteDimension);
+        this.sprites[Sprite_tipo.CARRO1.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/carrito1.png")), new Dimension(70, 100));
+        this.sprites[Sprite_tipo.CARRO2.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/carrito2.png")), new Dimension(70, 100));
+        this.sprites[Sprite_tipo.CARRO3.ordinal()] = new Sprite(ImageIO.read(new File("src/multimedia/carrito3.png")), new Dimension(70, 100));
     }
 
 	public Fondo() {
@@ -85,9 +93,35 @@ public class Fondo extends Thread implements Dimensionable{
 		
 		g2d.drawImage(fondo.getImage(), fondo.getPosition().x, fondo.getPosition().y, ancho, alto, null);
 		
+		for (Rectangle rect : colisiones) {
+			g2d.drawImage(sprites[Sprite_tipo.CARRO1.ordinal()].getImage(), rect.x - 10, rect.y - 10, null);
+		}
+		
 		g2d.dispose();
 		return aux;
 	}
+	
+	public Rectangle generarAuto() {
+		int x = (int) (250 + (Math.random() * (ANCHO - 250)));
+		int y = -100;
+		return new Rectangle(x + 10, y + 10, 60, 90);
+	}
+	
+	private void movimientoAuto() {
+		List<Rectangle> eliminar = new ArrayList<Rectangle>();
+		for (Rectangle rect : colisiones) {
+			rect.y += velocidad;
+			if (rect.y > ALTO + 10) {
+				eliminar.add(rect);
+			}
+		}
+		colisiones.removeAll(eliminar);
+		contador++;
+	}
+	
+	public List<Rectangle> getColisiones() {
+        return colisiones;
+    }
 	
 	public BufferedImage getImagen() {
 		return imagen;
@@ -121,6 +155,12 @@ public class Fondo extends Thread implements Dimensionable{
 		while (true) {
 			
 			imagenMovimiento.setPosition(new Point(imagenMovimiento.getPosition().x, imagenMovimiento.getPosition().y + velocidad));
+			
+			movimientoAuto();
+			
+			if (contador % 10 == 0) {
+				colisiones.add(generarAuto());
+			}
 			
 			imagen = dibujarFondo(imagenMovimiento, ancho, alto);
 			

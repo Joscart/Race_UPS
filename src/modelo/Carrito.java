@@ -27,6 +27,7 @@ public class Carrito extends Thread implements Dimensionable{
 	private boolean girandoIzq = false;
 	private boolean girandoDer = false;
 	private boolean colisionando = false;
+	private boolean colisionandoVertical = false;
 	private boolean activo = true;
 	private Instant tiempoInicio;
 	private Instant tiempoFinal;
@@ -258,7 +259,9 @@ public class Carrito extends Thread implements Dimensionable{
 				setRotacion(getRotacion() + 1);
 			}
 
-
+			if (colisionandoVertical) {
+				velocidad = -velocidad;
+			}
 
 			double rads = Math.toRadians(getRotacion());
 			double sin = Math.sin(rads), cos = Math.cos(rads);
@@ -283,6 +286,10 @@ public class Carrito extends Thread implements Dimensionable{
 				y = 0;
 			} else if (y > ALTO + 100) {
 				activo = false;
+			}
+			
+			if (x < 250 || x > 800) {
+				y = getPosicion().y + 2;
 			}
 			
 			if (posicionAnterior == null) {

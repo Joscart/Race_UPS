@@ -34,6 +34,7 @@ public class logic_Juego extends Thread implements KeyListener{
 	public void pause() {
 		if (!pause) {
 			this.suspend();
+			lb.fondo.suspend();
 			lb.jugador1.suspend();
 			lb.jugador2.suspend();
 			pause = true;
@@ -42,6 +43,7 @@ public class logic_Juego extends Thread implements KeyListener{
 		
 		if (pause) {
 			this.resume();
+			lb.fondo.resume();
 			lb.jugador1.resume();
 			lb.jugador2.resume();
 			pause = false;
