@@ -24,6 +24,7 @@ public class Fondo extends Thread implements Dimensionable{
 	private int velocidad = 0;
 	private Sprite sprites[];
 	private List<Rectangle> colisiones = new ArrayList<Rectangle>();
+	private List<Sprite> autos = new ArrayList<Sprite>();
 	private int contador = 0;
 	
 	private enum Sprite_tipo {
@@ -94,7 +95,7 @@ public class Fondo extends Thread implements Dimensionable{
 		g2d.drawImage(fondo.getImage(), fondo.getPosition().x, fondo.getPosition().y, ancho, alto, null);
 		
 		for (Rectangle rect : colisiones) {
-			g2d.drawImage(sprites[Sprite_tipo.CARRO1.ordinal()].getImage(), rect.x - 10, rect.y - 10, null);
+			g2d.drawImage(autos.get(colisiones.indexOf(rect)).getImage(), rect.x - 10, rect.y - 10, null);
 		}
 		
 		g2d.dispose();
@@ -102,8 +103,30 @@ public class Fondo extends Thread implements Dimensionable{
 	}
 	
 	public Rectangle generarAuto() {
-		int x = (int) (250 + (Math.random() * (ANCHO - 250)));
-		int y = -100;
+		int x = (int) (Math.random() * 6);
+		x = switch (x) {
+		case 0 -> 250;
+		case 1 -> 350;
+		case 2 -> 450;
+		case 3 -> 550;
+		case 4 -> 650;
+		case 5 -> 750;
+		default -> 0;
+		};
+		x += 25;
+		int y = (int) (Math.random() * 3);
+		switch (y) {
+		case 0:
+			autos.add(new Sprite(sprites[Sprite_tipo.CARRO1.ordinal()].getImage()));
+			break;
+		case 1:
+			autos.add(new Sprite(sprites[Sprite_tipo.CARRO2.ordinal()].getImage()));
+			break;
+		case 2:
+			autos.add(new Sprite(sprites[Sprite_tipo.CARRO3.ordinal()].getImage()));
+			break;
+		}
+		y = -100;
 		return new Rectangle(x + 10, y + 10, 60, 90);
 	}
 	
@@ -113,6 +136,7 @@ public class Fondo extends Thread implements Dimensionable{
 			rect.y += velocidad;
 			if (rect.y > ALTO + 10) {
 				eliminar.add(rect);
+				autos.remove(colisiones.indexOf(rect));
 			}
 		}
 		colisiones.removeAll(eliminar);
@@ -158,8 +182,9 @@ public class Fondo extends Thread implements Dimensionable{
 			
 			movimientoAuto();
 			
-			if (contador % 10 == 0) {
+			if (contador % 15 == 0) {
 				colisiones.add(generarAuto());
+				contador = 0;
 			}
 			
 			imagen = dibujarFondo(imagenMovimiento, ancho, alto);

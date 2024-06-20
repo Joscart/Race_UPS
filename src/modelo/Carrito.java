@@ -17,7 +17,6 @@ public class Carrito extends Thread implements Dimensionable{
 
 	private Sprite carro;
 	private Jugador jugador;
-	private Point posicionAnterior;
 	private double velocidad = 0.0;
 	private double aceleracion = 0.3;
 	private double desaceleracion = 0.2;
@@ -29,6 +28,8 @@ public class Carrito extends Thread implements Dimensionable{
 	private boolean colisionando = false;
 	private boolean colisionandoVertical = false;
 	private boolean activo = true;
+	private Rectangle cajaColision;
+	private Point posicionAux = new Point(0, 0);
 	private Instant tiempoInicio;
 	private Instant tiempoFinal;
 
@@ -41,6 +42,7 @@ public class Carrito extends Thread implements Dimensionable{
 			e.printStackTrace();
 		}
 		//this.carro.setTest(true);
+		cajaColision = new Rectangle(carro.getPosition().x, carro.getPosition().y, carro.getDimension().width, carro.getDimension().height);
 	}
 	
 	public void setJugador(Jugador jugador) {
@@ -80,6 +82,10 @@ public class Carrito extends Thread implements Dimensionable{
 			}
 			break;
 		}
+	}
+	
+	public Jugador getJugador() {
+		return jugador;
 	}
 
 	public BufferedImage getImagen() {
@@ -167,8 +173,11 @@ public class Carrito extends Thread implements Dimensionable{
 	}
 
 	public Rectangle getBounds() {
-		return new Rectangle(carro.getPosition().x, carro.getPosition().y, carro.getDimension().width,
-				carro.getDimension().height);
+		cajaColision.x = carro.getPosition().x;
+		cajaColision.y = carro.getPosition().y;
+		cajaColision.width = carro.getDimension().width;
+		cajaColision.height = carro.getDimension().height;
+		return cajaColision;
 	}
 
 	public boolean isAcelerando() {
@@ -198,9 +207,17 @@ public class Carrito extends Thread implements Dimensionable{
 	public boolean isColisionando() {
 		return colisionando;
 	}
+	
+	public boolean isColisionandoVertical() {
+		return colisionandoVertical;
+	}
 
 	public void setColisionando(boolean estaColisionando) {
 		this.colisionando = estaColisionando;
+	}
+	
+	public void setColisionandoVertical(boolean estaColisionandoVertical) {
+		this.colisionandoVertical = estaColisionandoVertical;
 	}
 
 	public boolean isActivo() {
@@ -212,8 +229,16 @@ public class Carrito extends Thread implements Dimensionable{
 	}
 	
 	public Rectangle getCajaColision() {
-		return new Rectangle(carro.getPosition().x + 10, carro.getPosition().y + 10, carro.getDimension().width - 20,
-				carro.getDimension().height - 20);
+		return new Rectangle(carro.getPosition().x + 5, carro.getPosition().y + 5, carro.getDimension().width - 10,
+				carro.getDimension().height - 10);
+	}
+	
+	public Point getPosicionAux() {
+		return posicionAux;
+	}
+	
+	public void setPosicionAux(Point posicionAux) {
+		this.posicionAux = posicionAux;
 	}
 	
 	public Duration getDuracion() {
@@ -292,22 +317,11 @@ public class Carrito extends Thread implements Dimensionable{
 				y = getPosicion().y + 2;
 			}
 			
-			if (posicionAnterior == null) {
-				posicionAnterior = new Point(x, y);
-			}
-			
-			if (colisionando) {
-				setPosicion(posicionAnterior);
-			}
-
 			if (!colisionando) {
 				setPosicion(new Point(x, y));
 			}
 			
-			if (posicionAnterior.x != x && posicionAnterior.y != y) {
-				posicionAnterior.x = x;
-				posicionAnterior.y = y;
-			}
+			posicionAux = new Point(x, y);
 
 			tiempoFinal = Instant.now();
 			//carro.setTestString(velocidad + "");
